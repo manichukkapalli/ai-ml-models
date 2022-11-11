@@ -6,5 +6,5 @@
 
 [<img src="https://img.shields.io/badge/CriticalRiver-1d417c" width="10%">](https://www.criticalriver.com/ai-ml-solution-offerings/ai-ml-models/) [<img src="https://img.shields.io/badge/YouTube-FF0000?logo=YouTube" width="10%">](https://www.youtube.com/watch?v=uf7u6YT3o68) [<img src="https://img.shields.io/badge/LinkedIn-0A66C2?logo=LinkedIn" width="10%">](https://www.linkedin.com/pulse/understanding-machine-learning-anwar-hussain/) [<img src="https://img.shields.io/badge/Twitter-1DA1F2?logo=Twitter&logoColor=white" width="9%">](https://twitter.com/CriticalRiver)
 
-![image](https://user-images.githubusercontent.com/111766830/201339264-54837181-b7f9-4070-9e14-9821815bda0f.png)
-![image](https://user-images.githubusercontent.com/111766830/201339298-47f5e64e-c2ec-422b-ac9d-3fca2dc45c0b.png)
+![image](https://user-images.githubusercontent.com/111766830/201340727-84d61424-fca0-4b85-aa3d-3a63bf52ceb1.png)
+![image](https://user-images.githubusercontent.com/111766830/201340757-29e75704-3b8e-4ed8-848b-a8f7a91ff36e.png)
