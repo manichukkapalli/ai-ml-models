@@ -1,0 +1,1 @@
+In this Usecase there was no requirement for performing Feature Engineering so this folder is kept empty.
