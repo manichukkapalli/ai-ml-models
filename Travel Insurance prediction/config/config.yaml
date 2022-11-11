@@ -1,0 +1,18 @@
+#INITIAL SETTINGS
+data_dir: ../data/
+#raw_data_dir: data/raw
+#processed_data_dir: data/processed
+models_dir: models
+#raw_data_file: TravelInsurancePrediction.csv
+#processed_data_file: processed_data.csv
+training_model: randomforest_model.pkl
+prediction_model: randomforest_model.pkl
+
+#database configuration
+db_config : 
+ DRIVER : '{FreeTDS}'
+ SERVER : 'Server name'          
+ DATABASE : 'Database name'
+ UID: 'userid'
+ PWD : 'password'
+ PORT : '1433'
