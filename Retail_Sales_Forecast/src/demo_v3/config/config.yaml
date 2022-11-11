@@ -16,9 +16,9 @@ prediction_model: Updated_TunedXGB_Model.pkl
 #database configuration
 
 db_config :
- DRIVER : 'SQL Server'
- SERVER : 'cr-devopsassessment.database.windows.net'          
- DATABASE : 'ml-usecases-db'
- UID: 'crmlteam'
- PWD : 'P455w0rd@123'
+ DRIVER : 'Driver name'
+ SERVER : 'server name'          
+ DATABASE : 'db name'
+ UID: 'userid'
+ PWD : 'Password'
  PORT : '1433'
