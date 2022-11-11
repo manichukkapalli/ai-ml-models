@@ -1,1 +1,5 @@
-
+![GitHub all releases](https://img.shields.io/github/downloads/CR-Digital-Innovation/ai-ml-models/total)
+![GitHub language count](https://img.shields.io/github/languages/count/CR-Digital-Innovation/ai-ml-models)
+![GitHub top language](https://img.shields.io/github/languages/top/CR-Digital-Innovation/ai-ml-models?color=yellow)
+![GitHub forks](https://img.shields.io/github/forks/CR-Digital-Innovation/ai-ml-models?style=social)
+![GitHub Repo stars](https://img.shields.io/github/stars/CR-Digital-Innovation/ai-ml-models?style=social)
