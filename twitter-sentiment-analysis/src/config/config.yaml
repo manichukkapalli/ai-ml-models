@@ -1,0 +1,15 @@
+# twitter configuration  
+APIKey : "APIKEY"
+APIsecretKey : "APIsecretKey"
+accessToken : "accessToken"
+accessTokenSecret : "accessTokenSecret"
+
+#database configuration
+db_config : 
+ DRIVER : '{FreeTDS}'
+ SERVER : 'Server_name'          
+ DATABASE : 'database_name'
+ UID : 'username'
+ PWD : 'password'
+ PORT : '1433'
+ 
