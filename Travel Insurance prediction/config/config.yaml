@@ -11,8 +11,8 @@ prediction_model: randomforest_model.pkl
 #database configuration
 db_config : 
  DRIVER : '{FreeTDS}'
- SERVER : 'cr-devopsassessment.database.windows.net'          
- DATABASE : 'ml-usecases-db'
- UID: 'crmlteam'
- PWD : 'P455w0rd@123'
+ SERVER : 'Server name'          
+ DATABASE : 'Database name'
+ UID: 'userid'
+ PWD : 'password'
  PORT : '1433'
