@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" href= "{{ url_for('static', filename='css/style.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+    </head>
+    
+    <body>
+        <header >
+            <div class = "row">
+                <div class="col-md-4 col-sm-4 col-lg-4" style="padding-top: .5%;padding-bottom: .5%;padding-left: 2%;color:blue">
+                    <a href="http://development-mlusecases.southeastasia.cloudapp.azure.com:8080/"><i class="fa fa-home fa-10x"></i></a> 
+                </div> 
+                <div class="col-md-4 col-sm-4 col-lg-4">
+                   <h1 style="text-align: center;"> CriticalRiver Intelligent Solutions </h1>
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 " style="display: flex; flex-direction: row; justify-content: flex-end;">      
+                </div>
+            </div>
+        </header>
+
+        <div class="content"  >
+            <div class="left" style="width: 85%;float: left;text-align: justify;">
+                <h3>Travel Insurance prediction</h3>
+                <p>The ability to predict whether a potential customer will be interested in a travel insurance policy is extremely useful for a company. 
+                Using this information, the organization could plan its communications strategy to reach out to these customers and optimize its business model.</p>
+            </div>
+
+
+        <div class="formcontent"  style="margin-left: 2%;">
+    
+            <div class = "left" style=" width:90%; float:left; text-align: justify; padding:.5%; margin-left: 30px;">
+                <div class="form_container"> 
+                    <!-- Action is where the data is sent. In our case, predict page.
+                    If action is omitted, it assumed to be the current page -->
+                    <form id="form1" name="form1"  method="post" action="/predict">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <label>Age</label><br>
+                                <input type="text"  id="Age" name="Age" class="form-control" style="color:#1d417c;" required="required" placeholder="ex: 25" >
+                            </div>
+                            <br>
+                            <div class="col-md-6 col-sm-6 col-lg-6" >
+                                <label>Employment Type</label><br>
+                                <select name="Employment_Type" id="Employment_Type" class="form-control" style="color:#1d417c;" required>
+                                    <option value="">Select option</option>    
+                                    <option value="Private Sector">Private Sector</option>
+                                    <option value="Government Sector">Government Sector</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <label>Qualification(Graduation Or Not)</label><br>
+                    
+                                <select  name="GraduateOrNot" id="drpGraduate" class="form-control" style="color:#1d417c;" required>
+                                    <option value="" >Select option</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No" >No</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <label>Annual Income</label><br>
+                                <input type="text"  id="AnnualIncome" name="AnnualIncome" class="form-control" required="required"placeholder="ex: 100000">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <label>Family Members</label><br>
+                                <input type="text"  id="FamilyMembers" name="FamilyMembers" class="form-control" required="required" placeholder="ex: 2">
+                            </div>
+                            <br>
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <label>Chronic Diseases</label><br>
+                                <input type="text"  id="ChronicDiseases" name="ChronicDiseases" class="form-control" required="required" placeholder="ex: 1 ">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <label> Frequent Flyer</label><br>
+                                <select name="FrequentFlyer" id="FrequentFlyer" class="form-control" style="color:#1d417c;" required>
+                                    <option value="">Select option</option>    
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <label>Ever Travelled Abroad</label><br>
+                                <select name="EverTravelledAbroad" id="EverTravelledAbroad" class="form-control" style="color:#1d417c;" required>
+                                    <option value="">Select option</option>    
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                           <br>
+                           <br>
+                        <div class="container" style="margin-left: 40%; bottom: 20px">
+                            <button class="btn btn-primary btn-sm" style="font-size: 10px !important; background-color: #ff6801; border-color: #ff6801;">Click to predict</button>
+                            <input type="reset" class="btn btn-primary btn-sm" style="font-size: 12px !important; margin-left:50px; background-color: #ff6801; border-color: #ff6801;">
+                        </div> 
+                    </form>
+            </div>
+        </div>
+
+
+        <footer class="fixed-bottom page-footer font-small">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-lg-4">
+                    © Copyright  2022. All Rights Reserved.
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4">
+                   
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 " style="display: flex; flex-direction: row; justify-content: flex-end;">
+                    Privacy|Terms|Sitemap
+                </div>
+            </div>
+        </footer>
+    
+               
+</body>
+       
+</html>
+
+    
