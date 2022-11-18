@@ -1,0 +1,1 @@
+[![Build status](https://dev.azure.com/CriticalRiverCoE/AIOps%20Development/_apis/build/status/GitHub%20Repositories/Retail%20Sales%20Forecasting%20-GH-CI)](https://dev.azure.com/CriticalRiverCoE/AIOps%20Development/_build/latest?definitionId=22)
