@@ -41,11 +41,11 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: PublishPipelineArtifact@1
+    - task: CopyPublishBuildArtifacts@1
       inputs:
-        artifactName: 'manifests'
-        path: 'manichukkapalli/ai-ml-models/retail-sales-forecast/manifests@azure-pipelines1'
-
+        Contents: 'manifests'
+        ArtifactName: 'manifests'
+        ArtifactType: 'FilePath'
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
