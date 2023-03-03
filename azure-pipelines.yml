@@ -41,11 +41,10 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
     - task: PublishPipelineArtifact@1
       inputs:
         artifactName: 'manifests'
-        path: '$(System.ArtifactsDirectory)/manifests'
+        path: '$(System.DefaultWorkingDirectory)/manifests'
 
 - stage: Deploy
   displayName: Deploy stage
@@ -63,7 +62,7 @@ stages:
           - task: DownloadPipelineArtifact@2
             inputs:
               artifactName: 'manifests'
-              downloadPath: '$(System.ArtifactsDirectory)/manifests'
+              downloadPath: '$(System.DefaultWorkingDirectory)/manifests'
 
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
@@ -79,8 +78,8 @@ stages:
               action: deploy
               namespace: $(k8sNamespace)
               manifests: |
-                $(System.ArtifactsDirectory)/manifests/deployment.yml
-                $(System.ArtifactsDirectory)/manifests/service.yml
+                $(System.DefaultWorkingDirectory)/manifests/deployment.yml
+                $(System.DefaultWorkingDirectory)/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
