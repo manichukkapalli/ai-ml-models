@@ -41,11 +41,19 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+- stage: deploy
+  displayName: Deployment
+  jobs:
+  - job: deployment
+    displayName: Deployment to kubernetes cluster
+    pool:
+      vmImage: $(vmImageName)
+    steps:        
     - task: KubernetesManifest@0
       displayName: Deployment to kubernetes cluster
       inputs:
         action: 'deploy'
         kubernetesServiceConnection: 'k8s-sc'
-        namespace: 'samplens'
-        manifests: 'imagescr1.azurecr.io/manichukkapalliaimlmodels:613'
+        namespace: '$(k8sNamespace)'
+        manifests: '$(containerRegistry)/$(imageRepository):$(tag)'
  
