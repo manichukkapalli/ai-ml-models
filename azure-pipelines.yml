@@ -41,19 +41,41 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-- stage: deploy
-  displayName: Deployment
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
   jobs:
-  - job: deployment
-    displayName: Deployment to kubernetes cluster
+  - deployment: Deploy
+    displayName: Deploy job
     pool:
       vmImage: $(vmImageName)
-    steps:        
-    - task: KubernetesManifest@0
-      displayName: Deployment to kubernetes cluster
-      inputs:
-        action: 'deploy'
-        kubernetesServiceConnection: 'k8s-sc'
-        namespace: '$(k8sNamespace)'
-        manifests: '$(containerRegistry)/$(imageRepository):$(tag)'
- 
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'manifests'
+              downloadPath: '$(System.ArtifactsDirectory)/manifests'
+
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              namespace: $(k8sNamespace)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(k8sNamespace)
+              manifests: |
+                $(System.ArtifactsDirectory)/manifests/deployment.yml
+                $(System.ArtifactsDirectory)/manifests/service.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
