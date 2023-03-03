@@ -44,7 +44,7 @@ stages:
     - task: PublishPipelineArtifact@1
       inputs:
         artifactName: 'manifests'
-        path: '$(System.DefaultWorkingDirectory)/manifests'
+        path: '$(Build.SourcesDirectory)/retail-sales-forecast/manifests'
 
 - stage: Deploy
   displayName: Deploy stage
