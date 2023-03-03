@@ -15,6 +15,10 @@ variables:
   containerRegistry: 'imagescr1.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/retail-sales-forecast/Dockerfile'
   tag: '$(Build.BuildId)'
+  azureSubscription: 'CR-AZURE-DevSecOps'
+  azureResourceGroup: 'Drone-Land-Survey-DevOps'
+  aksClusterName: 'samplecluster'
+  aksNamespace: 'samplens'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -45,28 +49,11 @@ stages:
   - deployment: Deploy
     displayName: Deploy job
     pool:
-      vmImage: $(vmImageName)
-    environment: 'myenv.aksnamespace' #customize with your environment
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'manifests'
-              downloadPath: '$(System.ArtifactsDirectory)/manifests'
-
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              namespace: $(k8sNamespace)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
+      vmImage: $(vmImageName)      
+    steps:      
+    - task: KubernetesManifest@0
+      displayName: Deploy to Kubernetes cluster
+      inputs:
               action: deploy
               namespace: $(k8sNamespace)
               manifests: |
@@ -76,4 +63,5 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
-
+        
+ 
