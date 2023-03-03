@@ -45,7 +45,7 @@ stages:
       inputs:
         Contents: 'manifests'
         ArtifactName: 'manifests'
-        ArtifactType: 'FilePath'
+        ArtifactType: 'Container'
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
