@@ -41,11 +41,11 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: CopyPublishBuildArtifacts@1
+    - task: CopyFiles@2
       inputs:
-        Contents: 'manifests'
-        ArtifactName: 'manifests'
-        ArtifactType: 'Container'
+        Contents: 'manichukkapalli/ai-ml-models/retail-sales-forecast/manifests'
+        TargetFolder: '$(build.artifactstagingdirectory)'
+
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
@@ -62,7 +62,7 @@ stages:
           - task: DownloadPipelineArtifact@2
             inputs:
               artifactName: 'manifests'
-              downloadPath: '$(System.DefaultWorkingDirectory)/manifests'
+              downloadPath: '$(build.artifactstagingdirectory)/manifests'
 
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
@@ -78,8 +78,8 @@ stages:
               action: deploy
               namespace: $(k8sNamespace)
               manifests: |
-                $(System.DefaultWorkingDirectory)/manifests/deployment.yml
-                $(System.DefaultWorkingDirectory)/manifests/service.yml
+                $(build.artifactstagingdirectory)/manifests/deployment.yml
+                $(build.artifactstagingdirectory)/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
