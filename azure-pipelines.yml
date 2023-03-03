@@ -23,12 +23,11 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-stages:
 - stage: Build
-  displayName: Build and push stage
-  jobs:
+  displayName: Build stage
+  jobs:  
   - job: Build
-    displayName: Build
+    displayName: Build job
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -41,6 +40,11 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        artifactName: 'manifests'
+        path: 'manifests'
 
 - stage: Deploy
   displayName: Deploy stage
