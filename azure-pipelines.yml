@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+- none
 
 resources:
 - repo: self
@@ -48,6 +48,16 @@ stages:
       displayName: 'Publish Artifact: drop'
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
-
-
+    - task: SonarQubePrepare@5
+      inputs:
+          SonarQube: 'cr-kube-sonarqube'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: 'sqa_e4e7998e77818dac2031d8d7808299046cd339fb'
+          cliProjectName: 'retail-sales-forecast'
+          cliSources: '.'
+    - task: SonarQubeAnalyze@5
+    - task: SonarQubePublish@5
+      inputs:
+        pollingTimeoutSec: '300'
 
