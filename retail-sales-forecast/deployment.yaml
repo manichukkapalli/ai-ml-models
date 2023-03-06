@@ -1,19 +1,19 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: sampleapp 
+  name: retail-sales-forecast 
 spec:
-  replicas: #replicaNo#
+  replicas: 2
   selector:
     matchLabels:
-      app: sampleapp
+      app: retail-sales-forecast
   template:
     metadata:
       labels:
-        app: sampleapp 
+        app: retail-sales-forecast
     spec:
       containers:
-        - name: sampleapp 
-          image: k8sexamplesacr.azurecr.io/sampleapp
+        - name: retail-sales-forecast 
+          image: imagescr1.azurecr.io/manichukkapalliaimlmodels
           ports:
           - containerPort: 80
