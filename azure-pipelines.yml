@@ -15,7 +15,7 @@ variables:
   containerRegistry: 'imagescr1.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/retail-sales-forecast/Dockerfile'
   tag: '$(Build.BuildId)'
-  kubernetesServiceConnection: 'k8s-sc'
+  kubernetesServiceConnection: 'arm-sc'
   azureSubscription: 'CR-AZURE-DevSecOps'
   azureResourceGroup: 'Drone-Land-Survey-DevOps'
   aksClusterName: 'samplecluster'
