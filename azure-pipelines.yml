@@ -15,7 +15,7 @@ variables:
   containerRegistry: 'imagescr1.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/retail-sales-forecast/Dockerfile'
   tag: '$(Build.BuildId)'
-  #kubernetesServiceConnection: 'arm-sc'
+  kubernetesServiceConnection: 'k8s-sc'
   azureSubscription: 'CR-AZURE-DevSecOps'
   azureResourceGroup: 'Drone-Land-Survey-DevOps'
   aksClusterName: 'MyManagedCluster'
@@ -52,39 +52,23 @@ stages:
 
 - stage: Deploy
   displayName: Deploy stage
-  dependsOn: Build
   jobs:
-  - deployment: Deploy
-    displayName: Deploy job
+  - deployment:
+    displayName: Deploy to AKS
     pool:
-      vmImage: $(vmImageName)
-    environment: 'myenv' 
+      vmImage: ubuntu-latest
+    environment: 'myenv'
     strategy:
       runOnce:
         deploy:
           steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'drop'
-              downloadPath: '$(build.artifactstagingdirectory)'
-
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              namespace: $(k8sNamespace)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-#              kubernetesServiceConnection: $(kubernetesServiceConnection)
+          - checkout: self
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              namespace: $(k8sNamespace)
+              kubernetesServiceConnection: '$(kubernetesServiceConnection)' #replace with your service connection
+#             namespace: aksnamespace
               manifests: |
                 $(build.artifactstagingdirectory)/deployment.yml
                 $(build.artifactstagingdirectory)/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
