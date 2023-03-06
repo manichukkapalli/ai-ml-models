@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: retail-sales-forecast 
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: retail-sales-forecast
+  template:
+    metadata:
+      labels:
+        app: retail-sales-forecast
+    spec:
+      containers:
+        - name: retail-sales-forecast 
+          image: imagescr1.azurecr.io/manichukkapalliaimlmodels
+          ports:
+          - containerPort: 80
