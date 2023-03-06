@@ -18,7 +18,7 @@ variables:
   #kubernetesServiceConnection: 'arm-sc'
   azureSubscription: 'CR-AZURE-DevSecOps'
   azureResourceGroup: 'Drone-Land-Survey-DevOps'
-  aksClusterName: 'samplecluster'
+  aksClusterName: 'MyManagedCluster'
   #aksNamespace: 'samplens'
 
   # Agent VM image name
