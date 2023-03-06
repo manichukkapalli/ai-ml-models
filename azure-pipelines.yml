@@ -18,7 +18,7 @@ variables:
   azureSubscription: 'CR-AZURE-DevSecOps'
   azureResourceGroup: 'Drone-Land-Survey-DevOps'
   aksClusterName: 'samplecluster'
-  aksNamespace: 'samplens'
+  #aksNamespace: 'samplens'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -48,16 +48,40 @@ stages:
       displayName: 'Publish Artifact: drop'
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
-    - task: SonarQubePrepare@5
-      inputs:
-          SonarQube: 'cr-kube-sonarqube'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: 'sqa_e4e7998e77818dac2031d8d7808299046cd339fb'
-          cliProjectName: 'retail-sales-forecast'
-          cliSources: '.'
-    - task: SonarQubeAnalyze@5
-    - task: SonarQubePublish@5
-      inputs:
-        pollingTimeoutSec: '300'
 
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy job
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'myenv' 
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'drop'
+              downloadPath: '$(build.artifactstagingdirectory)'
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              namespace: $(k8sNamespace)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(k8sNamespace)
+              manifests: |
+                $(build.artifactstagingdirectory)/deployment.yml
+                $(build.artifactstagingdirectory)/service.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
