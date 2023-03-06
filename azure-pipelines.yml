@@ -46,42 +46,5 @@ stages:
         Contents: '**'
         TargetFolder: '$(build.artifactstagingdirectory)'
 
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy job
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'myenv' #customize with your environment
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'manifests'
-              downloadPath: '$(build.artifactstagingdirectory)/manifests'
 
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              namespace: $(k8sNamespace)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              namespace: $(k8sNamespace)
-              manifests: |
-                $(build.artifactstagingdirectory)/manifests/deployment.yml
-                $(build.artifactstagingdirectory)/manifests/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
 
