@@ -70,5 +70,5 @@ stages:
               kubernetesServiceConnection: '$(kubernetesServiceConnection)' #replace with your service connection
 #             namespace: aksnamespace
               manifests: |
-                $(Build.SourcesDirectory)/retail-sales-forecast/deployment.yml
-                $(Build.SourcesDirectory)/retail-sales-forecast/service.yml
+                '$(build.artifactstagingdirectory)/retail-sales-forecast/deployment.yml'
+                '$(build.artifactstagingdirectory)/retail-sales-forecast/service.yml'
