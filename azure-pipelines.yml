@@ -62,18 +62,11 @@ stages:
       runOnce:
         deploy:
           steps:
-
-#          - task: DownloadPipelineArtifact@2
-#           inputs:
-#              artifactName: 'drop'
-#              downloadPath: '$(build.artifactstagingdirectory)'
-    
-steps:
-- task: Kubernetes@1
-  displayName: 'kubectl apply'
-  inputs:
-    kubernetesServiceEndpoint: 'aks-sc'
-    command: apply
-    useConfigurationFile: true
-    configuration: '$(System.DefaultWorkingDirectory)/_manichukkapalli.ai-ml-models/drop/retail-sales-forecast/deployment.yaml'
-    versionSpec: 1.7.0
+            - task: Kubernetes@1
+              displayName: 'kubectl apply'
+              inputs:
+                kubernetesServiceEndpoint: 'aks-sc'
+                command: apply
+                useConfigurationFile: true
+                configuration: '$(System.DefaultWorkingDirectory)/_manichukkapalli.ai-ml-models/drop/retail-sales-forecast/deployment.yaml'
+                versionSpec: 1.7.0
