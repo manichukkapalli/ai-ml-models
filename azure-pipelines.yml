@@ -72,6 +72,6 @@ stages:
                 kubernetesServiceConnection: 'aks-sc'
                 namespace: 'default'
                 manifests: |
-                  manifests/deployment.yaml
-                  manifests/service.yaml
+                  $(build.artifactstagingdirectory)/manifests/deployment.yaml
+                  $(build.artifactstagingdirectory)/manifests/service.yaml
                 imagePullSecrets: '$(imagePullSecret)'
