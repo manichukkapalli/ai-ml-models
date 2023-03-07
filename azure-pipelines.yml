@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+- none
 
 resources:
 - repo: self
@@ -15,10 +15,10 @@ variables:
   containerRegistry: 'imagescr1.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/retail-sales-forecast/Dockerfile'
   tag: '$(Build.BuildId)'
+  kubernetesServiceConnection: 'aks-sc'
   azureSubscription: 'CR-AZURE-DevSecOps'
   azureResourceGroup: 'Drone-Land-Survey-DevOps'
-  aksClusterName: 'samplecluster'
-  aksNamespace: 'samplens'
+  aksClusterName: 'MyManagedCluster'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -49,5 +49,29 @@ stages:
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
 
-
-
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy job
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'myenv' 
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'drop'
+              downloadPath: '$(build.artifactstagingdirectory)'
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'aks-sc'
+              manifests: |
+                $(build.artifactstagingdirectory)/deployment.yaml
+                $(build.artifactstagingdirectory)/service.yaml
+              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
