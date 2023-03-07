@@ -49,29 +49,39 @@ stages:
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
 
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
+- stage: 'Deployment'
+  displayName: 'Deploy To AKS'
   jobs:
-  - deployment: Deploy
-    displayName: Deploy job
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'myenv' 
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'drop'
-              downloadPath: '$(build.artifactstagingdirectory)'
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: 'deploy'
-              kubernetesServiceConnection: 'aks-sc'
-              manifests: |
-                $(build.artifactstagingdirectory)/deployment.yaml
-                $(build.artifactstagingdirectory)/service.yaml
-              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+    - deployment: Release
+      environment: 'myenv'
+      displayName: 'Release'
+      pool:
+        vmImage: ubuntu-latest
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+
+            - task: KubernetesManifest@0
+              displayName: Create imagePullSecret
+              inputs:
+                action: 'createSecret'
+                kubernetesServiceConnection: 'aks-sc'
+                secretType: 'dockerRegistry'
+                secretName: '$(imagePullSecret)'
+                dockerRegistryEndpoint: 'imagescr1'
+
+            - script: dir $(Build.SourcesDirectory)/manifests
+              displayName: Cloning Manifest Files From Repo
+              
+            - task: KubernetesManifest@0
+              displayName: Deploying Manifests InTo AKS
+              inputs:
+                action: 'deploy'
+                kubernetesServiceConnection: 'aks-sc'
+                namespace: 'default'
+                manifests: |
+                  manifests/deployment.yaml
+                  manifests/service.yaml
+                imagePullSecrets: '$(imagePullSecret)'
