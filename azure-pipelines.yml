@@ -62,16 +62,6 @@ stages:
           deploy:
             steps:
             - checkout: self
-
-            - task: KubernetesManifest@0
-              displayName: Create imagePullSecret
-              inputs:
-                action: 'createSecret'
-                kubernetesServiceConnection: 'aks-sc'
-                secretType: 'dockerRegistry'
-                secretName: '$(imagePullSecret)'
-                dockerRegistryEndpoint: 'imagescr1'
-
             - script: dir $(Build.SourcesDirectory)/manifests
               displayName: Cloning Manifest Files From Repo
               
