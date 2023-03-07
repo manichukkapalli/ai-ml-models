@@ -62,7 +62,7 @@ stages:
           deploy:
             steps:
             - checkout: self
-            - script: dir $(Build.SourcesDirectory)/ai-ml-models/retail-sales-forecast/manifests
+            - script: dir $(Build.SourcesDirectory)/retail-sales-forecast/manifests
               displayName: Cloning Manifest Files From Repo
               
             - task: KubernetesManifest@0
