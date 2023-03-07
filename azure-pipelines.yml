@@ -62,11 +62,16 @@ stages:
       runOnce:
         deploy:
           steps:
-            - task: Kubernetes@1
-              displayName: 'kubectl apply'
-              inputs:
-                kubernetesServiceEndpoint: 'aks-sc'
-                command: apply
-                useConfigurationFile: true
-                configuration: '$(System.DefaultWorkingDirectory)/drop/retail-sales-forecast/deployment.yaml'
-                versionSpec: 1.7.0
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'drop'
+              downloadPath: '$(build.artifactstagingdirectory)'
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'aks-sc'
+              manifests: |
+                $(build.artifactstagingdirectory)/deployment.yaml
+                $(build.artifactstagingdirectory)/service.yaml
+              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
