@@ -72,5 +72,5 @@ stages:
             inputs:
               action: 'deploy'
               kubernetesServiceConnection: '$(kubernetesServiceConnection)'
-              manifests: '$(System.DefaultWorkingDirectory)/drop/retail-sales-forecast/deployment.yaml'
+              manifests: '$(System.DefaultWorkingDirectory)/retail-sales-forecast/deployment.yaml'
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
