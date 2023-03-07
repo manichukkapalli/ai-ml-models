@@ -15,11 +15,10 @@ variables:
   containerRegistry: 'imagescr1.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/retail-sales-forecast/Dockerfile'
   tag: '$(Build.BuildId)'
-  kubernetesServiceConnection: 'k8s-sc'
+  kubernetesServiceConnection: 'aks-sc'
   azureSubscription: 'CR-AZURE-DevSecOps'
   azureResourceGroup: 'Drone-Land-Survey-DevOps'
   aksClusterName: 'MyManagedCluster'
-  #aksNamespace: 'samplens'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -67,21 +66,12 @@ stages:
             inputs:
               artifactName: 'drop'
               downloadPath: '$(build.artifactstagingdirectory)'
-
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: 'deploy'
-              kubernetesServiceConnection: 'aks-sc'
-              namespace: '$(k8sNamespace)'
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: 'deploy'
-              kubernetesServiceConnection: 'aks-sc'
-              namespace: '$(k8sNamespace)'
+              kubernetesServiceConnection: '$(kubernetesServiceConnection)'
               manifests: |
-                $(build.artifactstagingdirectory)/deployment.yml
-                $(build.artifactstagingdirectory)/service.yml
+                '$(build.artifactstagingdirectory)/deployment.yml'
+                '$(build.artifactstagingdirectory)/service.yml'
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
-              imagePullSecrets: '$(imagePullSecret)'
