@@ -72,5 +72,8 @@ stages:
                 kubernetesServiceConnection: 'aks-sc'
                 namespace: 'default'
                 manifests: |
-                  $(build.artifactstagingdirectory)/drop/retail-sales-forecast/manifests/deployment.yaml
-                  $(build.artifactstagingdirectory)/drop/retail-sales-forecast/manifests/service.yaml
+                  /home/vsts/work/1/drop/retail-sales-forecast/deployment.yaml
+                  /home/vsts/work/1/drop/retail-sales-forecast/service.yaml
+
+#                  $(build.artifactstagingdirectory)/drop/retail-sales-forecast/manifests/deployment.yaml
+#                  $(build.artifactstagingdirectory)/drop/retail-sales-forecast/manifests/service.yaml
